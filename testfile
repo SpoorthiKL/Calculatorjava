@@ -8,7 +8,7 @@ pipeline {
                 git 'https://github.com/SpoorthiKL/Calculatorjava.git'
             }
         }
-        stage('Hbuildjob') {
+        stage('buildjob') {
             steps {
                 echo 'Building.....'
                 sh 'mvn compile'
