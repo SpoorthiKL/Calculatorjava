@@ -1,19 +1,29 @@
 pipeline {
     agent any
+
     stages {
-        stage('Compile') {
-            steps { 
+        stage('gitjob') {
+            steps {
+                echo 'Cloning.....'
+                git 'https://github.com/SpoorthiKL/Calculatorjava.git''
+            }
+        }
+        stage('Hbuildjob') {
+            steps {
+                echo 'Building.....'
                 sh 'mvn compile'
             }
         }
-        stage('test') {
-            steps { 
+        stage('testjob') {
+            steps {
+                echo 'Testing.....'
                 sh 'mvn test'
             }
         }
-        stage('package') {
-            steps { 
-                sh 'mvn package'
+        stage('deployjob') {
+            steps {
+                echo 'Depoying.....'
+                sh 'mvn install'
             }
         }
     }
