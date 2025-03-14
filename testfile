@@ -4,25 +4,25 @@ pipeline {
      stages {
         stage('gitjob') {
             steps {
-                echo 'Cloning.....'
+                echo 'pulling the code from git hub'
                 git 'https://github.com/SpoorthiKL/Calculatorjava.git'
             }
         }
         stage('buildjob') {
             steps {
-                echo 'Building.....'
+                echo 'Building the job'
                 sh 'mvn compile'
             }
         }
         stage('testjob') {
             steps {
-                echo 'Testing.....'
+                echo 'Testing the job'
                 sh 'mvn test'
             }
         }
         stage('deployjob') {
             steps {
-                echo 'Depoying.....'
+                echo 'Depoying the job'
                 sh 'mvn install'
             }
         }
