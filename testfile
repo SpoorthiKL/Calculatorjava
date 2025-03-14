@@ -5,49 +5,30 @@ pipeline {
         githubPush()
     }
 
-    stages {
-        stage('Clone Repository') {
+     stages {
+        stage('gitjob') {
             steps {
-                echo 'Cloning repository...'
-                git branch: 'main', url: 'https://github.com/SpoorthiKL/Calculatorjava.git'
+                echo 'Cloning.....'
+                git 'https://github.com/SpoorthiKL/Calculatorjava.git'
             }
         }
-
-        stage('Build') {
+        stage('buildjob') {
             steps {
-                echo 'Building project...'
-                dir('java-project') {
-                    sh 'mvn compile'
-                }
+                echo 'Building.....'
+                sh 'mvn compile'
             }
         }
-
-        stage('Test') {
+        stage('testjob') {
             steps {
-                echo 'Running tests...'
-                dir('java-project') {
-                    sh 'mvn test'
-                }
+                echo 'Testing.....'
+                sh 'mvn test'
             }
         }
-
-        stage('Deploy') {
+        stage('deployjob') {
             steps {
-                echo 'Deploying project...'
-                dir('java-project') {
-                    sh 'mvn install'
-                }
+                echo 'Depoying.....'
+                sh 'mvn install'
             }
-        }
-    }
-
-    post {
-        success {
-            echo "Build Completed Successfully!"
-        }
-
-        failure {
-            echo "Build Failed!"
         }
     }
 }
