@@ -5,7 +5,7 @@ pipeline {
         stage('gitjob') {
             steps {
                 echo 'Cloning.....'
-                git 'https://github.com/SpoorthiKL/Calculatorjava.git''
+                git 'https://github.com/SpoorthiKL/Calculatorjava.git'
             }
         }
         stage('Hbuildjob') {
