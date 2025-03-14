@@ -1,30 +1,53 @@
 pipeline {
     agent any
 
+    triggers {
+        githubPush()
+    }
+
     stages {
-        stage('gitjob') {
+        stage('Clone Repository') {
             steps {
-                echo 'Cloning.....'
-                git 'https://github.com/SpoorthiKL/Calculatorjava.git'
+                echo 'Cloning repository...'
+                git branch: 'main', url: 'https://github.com/sbommul1/DEVOPS.git'
             }
         }
-        stage('buildjob') {
+
+        stage('Build') {
             steps {
-                echo 'Building.....'
-                sh 'mvn compile'
+                echo 'Building project...'
+                dir('java-project') {
+                    sh 'mvn compile'
+                }
             }
         }
-        stage('testjob') {
+
+        stage('Test') {
             steps {
-                echo 'Testing.....'
-                sh 'mvn test'
+                echo 'Running tests...'
+                dir('java-project') {
+                    sh 'mvn test'
+                }
             }
         }
-        stage('deployjob') {
+
+        stage('Deploy') {
             steps {
-                echo 'Depoying.....'
-                sh 'mvn install'
+                echo 'Deploying project...'
+                dir('java-project') {
+                    sh 'mvn install'
+                }
             }
+        }
+    }
+
+    post {
+        success {
+            echo "Build Completed Successfully!"
+        }
+
+        failure {
+            echo "Build Failed!"
         }
     }
 }
