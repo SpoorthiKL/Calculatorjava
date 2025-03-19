@@ -20,6 +20,12 @@ pipeline {
                 sh 'mvn test'
             }
         }
+	stage('Approval') {
+            steps {
+                input message: 'Deploy to Production?', ok: 'Proceed'
+            }
+        }
+
         stage('deployjob') {
             steps {
                 echo 'Depoying the job'
