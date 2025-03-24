@@ -1,10 +1,13 @@
 pipeline {
     agent any
+    parameters {
+        choice(name: 'ENVIRONMENT', choices: ['Dev', 'QA', 'Prod'], description: 'Select the deployment environment')
+    }
 
-     stages {
+    stages {
         stage('gitjob') {
             steps {
-                echo 'pulling the code from git hub'
+                echo 'Pulling the code from GitHub'
                 git 'https://github.com/SpoorthiKL/Calculatorjava.git'
             }
         }
@@ -20,15 +23,24 @@ pipeline {
                 sh 'mvn test'
             }
         }
-	stage('Approval') {
+        stage('Approval') {
             steps {
                 input message: 'Deploy to Production?', ok: 'Proceed'
             }
         }
-
         stage('deployjob') {
             steps {
-                echo 'Depoying the job'
+                script {
+                    echo "Deploying to environment: ${params.ENVIRONMENT}"
+
+                    if (params.ENVIRONMENT == 'Dev') {
+                        sh 'echo Deploying to Development Server'
+                    } else if (params.ENVIRONMENT == 'QA') {
+                        sh 'echo Deploying to QA Server'
+                    } else if (params.ENVIRONMENT == 'Prod') {
+                        sh 'echo Deploying to Production Server'
+                    }
+                }
                 sh 'mvn install'
             }
         }
